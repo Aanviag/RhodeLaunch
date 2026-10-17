@@ -97,7 +97,7 @@ function resourceCountForCounty(countyId) {
 
    ------------------------------------------------------------------------ */
 
-const CENSUS_API_KEY = "47d157768272a26f195d448b5913630c15f1531f"; // REQUIRED — paste your free key from https://api.census.gov/data/key_signup.html
+const CENSUS_API_KEY = "47d157768272a26f195d448b5913630c15f1531f";
 
 const ACS_YEAR = 2022; // ACS 5-year vintage (2018-2022 estimates) — confirmed reachable
 const ACS_PRIOR_YEAR = ACS_YEAR - 5; // for 5-year growth comparison
