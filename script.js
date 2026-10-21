@@ -59,7 +59,7 @@ const METRICS = [
   { id: "population", label: "Population", fmt: (v) => Math.round(v).toLocaleString() },
 ];
 
-// “This list of resources is hand‑made 
+// “This list of resources is hand‑made because there is no public API for it.
 //Every item was checked directly on the organization’s own website to make sure the information is correct.
 const RESOURCES = [
   { tag: "SBA Counseling", name: "Rhode Island Small Business Development Center (RISBDC)", desc: "Free one-on-one business counseling, formation guidance and financial projection review.", addr: "URI Providence Campus, 80 Washington St, Providence", phone: "(401) 874-7232", county: "providence", website: "https://web.uri.edu/risbdc/" },
@@ -99,14 +99,15 @@ function resourceCountForCounty(countyId) {
 
 const CENSUS_API_KEY = "47d157768272a26f195d448b5913630c15f1531f";
 
-const ACS_YEAR = 2022; // ACS 5-year vintage (2018-2022 estimates) 
+const ACS_YEAR = 2022; // ACS 5-year vintage (2018-2022 estimates) — confirmed reachable
 const ACS_PRIOR_YEAR = ACS_YEAR - 5; // for 5-year growth comparison
-const CBP_YEAR = 2021; // County Business Patterns vintage
+const CBP_YEAR = 2021; // County Business Patterns vintage — confirmed reachable
+
 const FETCH_TIMEOUT_MS = 9000;
 
 if (!CENSUS_API_KEY) {
   console.warn(
-    "[Rhode Launch] No CENSUS_API_KEY set — Census requests will likely fail. " +
+    "[SmallBizBoost RI] No CENSUS_API_KEY set — Census requests will likely fail. " +
     "Get a free key at https://api.census.gov/data/key_signup.html and paste it " +
     "into the CENSUS_API_KEY constant near the top of script.js."
   );
@@ -128,7 +129,8 @@ async function fetchJson(url) {
   }
 }
 
-
+// Census API responses are arrays-of-arrays: [ [headers...], [row...], ... ]
+// This turns them into { countyFips: value }
 function indexByCountyFips(rows, valueColIndex) {
   const out = {};
   for (let i = 1; i < rows.length; i++) {
@@ -188,6 +190,7 @@ async function fetchEstablishments(year) {
 }
 
 //“This gets the latest county unemployment rate from BLS.
+//The special "latest=true" option only works with a registered key, so for normal requests we just read the first row because BLS sends the newest data first".
 async function fetchUnemploymentRate(countyFips) {
   const seriesId = `LAUCN${STATE_FIPS}${countyFips}0000000003`;
   const url = `https://api.bls.gov/publicAPI/v2/timeseries/data/${seriesId}`;
@@ -315,7 +318,9 @@ const CHART_COLORS = {
   navy: "#11212C",
 };
 
-
+//“This sets the canvas’s real pixel size to match its CSS size × the device’s pixel ratio.
+//That way the drawing looks sharp on high‑DPI screens.
+//It returns the CSS width and height you should use when drawing, because the context is already scaled for you.”.
 function prepareCanvas(canvas) {
   const rect = canvas.getBoundingClientRect();
   const width = Math.max(rect.width, 1);
@@ -507,9 +512,9 @@ const state = {
   metric: "income",
   filterCounty: "all",
   filterType: "Every type",
-  economicData: null, 
+  economicData: null, // filled after fetchAllEconomicData() resolves
   dataSources: null,
-  dataStatus: "loading",
+  dataStatus: "loading", // 'loading' | 'live' | 'partial' | 'fallback'
 };
 
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
