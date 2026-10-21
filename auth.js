@@ -1,8 +1,7 @@
 /* ------------------------------------------------------------------------
    auth.js — lightweight client-side accounts + score storage.
    Demo login: please don’t use a password you use anywhere else. 
-   Accounts are saved only in this browser (not on a server) and aren’t encrypted,
-   so anyone using this browser could see them.
+   Accounts are saved only in this browser (not on a server).
    ------------------------------------------------------------------------ */
 
 const AUTH_USERS_KEY = "sbri_users";
