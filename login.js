@@ -1,8 +1,7 @@
 /* ------------------------------------------------------------------------
    login.js — animated county-index chart + sign-in / sign-up form behavior
-“This login page is only pretend. The submit button doesn’t actually talk to a server. 
-You need to replace the placeholder code with a real login request.”  
-   ------------------------------------------------------------------------ */
+DEMO ONLY: there is no server. Accounts are saved in this browser
+    ------------------------------------------------------------------------ */
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
