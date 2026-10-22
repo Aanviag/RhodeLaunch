@@ -1,7 +1,6 @@
 /* ------------------------------------------------------------------------
    login.js — animated county-index chart + sign-in / sign-up form behavior
-“This login page is only pretend. The submit button doesn’t actually talk to a server. 
-You need to replace the placeholder code with a real login request.”  
+
    ------------------------------------------------------------------------ */
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -56,7 +55,7 @@ function initLegend() {
   ).join("");
 }
 
-/* ---------------- animated line chart (hand-written canvas, matches app style) ---------------- */
+/* ---------------- animated line chart (hand-written canvas) ---------------- */
 function initPulseChart() {
   const canvas = $("#pulse-chart");
   if (!canvas) return;
@@ -242,7 +241,7 @@ function initForm() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Already signed in? Skip the login page entirely.
+  // Already signed in? 
   if (authGetSession()) {
     window.location.href = "index.html";
     return;
