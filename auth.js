@@ -1,8 +1,6 @@
 /* ------------------------------------------------------------------------
    auth.js — lightweight client-side accounts + score storage.
-
-   IMPORTANT: “This login is just pretend. Please don't use your original password. 
-   It’s saved openly in your browser, and anyone using the same browser can see it.”
+   Demo login only. This is a practice login, so please don’t use a real password.
    ------------------------------------------------------------------------ */
 
 const AUTH_USERS_KEY = "sbri_users";
@@ -18,7 +16,7 @@ function authSaveUsers(users) {
   localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
 }
 
-/** Create an account and sign in. Returns { ok, error? }. */
+/** Create an account and sign in. */
 function authSignUp(name, email, password) {
   const users = authGetUsers();
   const key = email.trim().toLowerCase();
@@ -30,7 +28,7 @@ function authSignUp(name, email, password) {
   return { ok: true };
 }
 
-/** Check credentials and sign in. Returns { ok, error? }. */
+/** Check credentials and sign in. */
 function authSignIn(email, password) {
   const users = authGetUsers();
   const key = email.trim().toLowerCase();
@@ -53,8 +51,7 @@ function authCurrentUser() {
   return users[email] ? { email, name: users[email].name } : null;
 }
 
-/** Call as early as possible on any page that requires sign-in.
- *  Redirects to login.html and returns false if nobody is signed in. */
+
 function authRequire() {
   if (!authGetSession()) {
     window.location.href = "login.html";
