@@ -1,6 +1,6 @@
 # Rhode Launch
 Rhode Launch.... Know the local economy before you sign the lease. 
-Rhode Launch is a web app that helps aspiring entrepreneurs evaluate the real-world feasibility of starting a small business anywhere in Rhode Island — using live public data instead of guesswork. Built for the Congressional App Challenge.
+Rhode Launch is a web app that helps aspiring entrepreneurs evaluate the real-world feasibility of starting a small business anywhere in Rhode Island using live public data instead of guesswork. Built for the Congressional App Challenge.
 
 **What it does :** Users select a county, a business type, a monthly rent budget, and a planned number of employees. The app generates a formation feasibility score built from five weighted factors: Factor What it measures Data source Household demand Median household income + 5-year income growth Census ACS 5-Year Estimates Labor cost headroom Estimated average weekly wage vs. staffing/rent plan Census ACS 5-Year Estimates Market depth County business establishment density Census County Business Patterns Institutional support Chambers, SBA counselors, and lenders serving the county Curated local resources directory Labor stability County unemployment rate BLS Local Area Unemployment Statistics (LAUS)
 
