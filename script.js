@@ -99,9 +99,9 @@ function resourceCountForCounty(countyId) {
 
 const CENSUS_API_KEY = "47d157768272a26f195d448b5913630c15f1531f";
 
-const ACS_YEAR = 2022; // ACS 5-year vintage (2018-2022 estimates) — confirmed reachable
+const ACS_YEAR = 2022; // ACS 5-year vintage (2018-2022 estimates) 
 const ACS_PRIOR_YEAR = ACS_YEAR - 5; // for 5-year growth comparison
-const CBP_YEAR = 2021; // County Business Patterns vintage — confirmed reachable
+const CBP_YEAR = 2021; // County Business Patterns vintage 
 
 const FETCH_TIMEOUT_MS = 9000;
 
@@ -129,8 +129,7 @@ async function fetchJson(url) {
   }
 }
 
-// Census API responses are arrays-of-arrays: [ [headers...], [row...], ... ]
-// This turns them into { countyFips: value }
+
 function indexByCountyFips(rows, valueColIndex) {
   const out = {};
   for (let i = 1; i < rows.length; i++) {
@@ -171,7 +170,7 @@ async function fetchSelfEmployedShare(year) {
 
 async function fetchMedianEarnings(year) {
   // “This value is median yearly earnings for workers 16+.
-//We divide by 52 to get an approximate weekly wage.
+// Divide by 52 to get an approximate weekly wage.
 //It’s just an estimate, not the official BLS method.”
    
   const url = withKey(
@@ -190,7 +189,7 @@ async function fetchEstablishments(year) {
 }
 
 //“This gets the latest county unemployment rate from BLS.
-//The special "latest=true" option only works with a registered key, so for normal requests we just read the first row because BLS sends the newest data first".
+
 async function fetchUnemploymentRate(countyFips) {
   const seriesId = `LAUCN${STATE_FIPS}${countyFips}0000000003`;
   const url = `https://api.bls.gov/publicAPI/v2/timeseries/data/${seriesId}`;
@@ -306,8 +305,6 @@ async function fetchAllEconomicData() {
 
 /* ------------------------------------------------------------------------
    Chart rendering — pure vanilla JS using the Canvas 2D API.
-   No external charting library. Two charts: a county comparison bar chart
-   and a 5-axis radar chart for the score breakdown.
    ------------------------------------------------------------------------ */
 
 const CHART_COLORS = {
@@ -318,9 +315,7 @@ const CHART_COLORS = {
   navy: "#11212C",
 };
 
-//“This sets the canvas’s real pixel size to match its CSS size × the device’s pixel ratio.
-//That way the drawing looks sharp on high‑DPI screens.
-//It returns the CSS width and height you should use when drawing, because the context is already scaled for you.”.
+
 function prepareCanvas(canvas) {
   const rect = canvas.getBoundingClientRect();
   const width = Math.max(rect.width, 1);
@@ -360,7 +355,7 @@ function drawRoundedTopRect(ctx, x, y, w, h, r) {
  */
 function renderCountyBarChart(canvas, labels, values, leaderLabel) {
   const rect = canvas.getBoundingClientRect();
-  if (rect.width < 10 || rect.height < 10) return; // not visible yet, skip
+  if (rect.width < 10 || rect.height < 10) return; 
 
   const { ctx, width, height } = prepareCanvas(canvas);
   const padding = { top: 16, right: 12, bottom: 28, left: 52 };
@@ -412,7 +407,7 @@ function renderCountyBarChart(canvas, labels, values, leaderLabel) {
  */
 function renderScoreRadarChart(canvas, score) {
   const rect = canvas.getBoundingClientRect();
-  if (rect.width < 10 || rect.height < 10) return; // not visible yet, skip
+  if (rect.width < 10 || rect.height < 10) return; 
 
   const { ctx, width, height } = prepareCanvas(canvas);
   const cx = width / 2;
@@ -500,7 +495,6 @@ function renderScoreRadarChart(canvas, score) {
 
 /* ------------------------------------------------------------------------
    app.js — application state, rendering, and event wiring.
-   No framework, no build step: plain DOM APIs.
    ------------------------------------------------------------------------ */
 
 const state = {
@@ -514,7 +508,7 @@ const state = {
   filterType: "Every type",
   economicData: null, // filled after fetchAllEconomicData() resolves
   dataSources: null,
-  dataStatus: "loading", // 'loading' | 'live' | 'partial' | 'fallback'
+  dataStatus: "loading", 
 };
 
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
@@ -528,8 +522,7 @@ function getCounty(id) {
 function computeScore(county, businessType, employees, rent, annualRent, annualPayroll) {
   const household = clamp(((county.income - 65000) / 55000) * 70 + (county.growth / 15) * 30, 0, 100);
 
- // Labor cost headroom mixes the county’s wage environment with how efficient your staffing + rent plan is.
-//This blend makes sure the score changes when you change your plan.”
+ 
   
    const wagePressure = (county.wage - 1000) / 3.2;
   const businessTypePressure = (businessType.multiplier - 1) * 55;
@@ -743,7 +736,7 @@ function renderResources() {
 function renderAll() {
   renderNav();
   renderDataStatusBadge();
-  if (!state.economicData) return; // still loading
+  if (!state.economicData) return; 
   renderHome();
   renderCounties();
   renderResources();
@@ -755,9 +748,7 @@ function renderAll() {
 function setPage(page) {
   state.page = page;
   renderNav();
-  // Canvas charts can only measure/draw correctly once their section is
-  // visible (display !== none), so re-render whichever chart just became
-  // visible now that its container has real dimensions.
+ 
   if (state.economicData) {
     if (page === "home") renderHome();
     if (page === "counties") renderCounties();
